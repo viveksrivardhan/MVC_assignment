@@ -4,20 +4,24 @@ function RegisterUser(req, res) {
   let username = req.body.username;
   let email = req.body.email;
   let password = req.body.password;
-  let userdata = {
+  try{
+  let userdata = UserModel.validate({
     username: username,
     email: email,
     password: password,
-  };
-  console.log(userdata)
+  });
   let resultData = new UserModel(userdata);
   console.log(resultData)
   resultData.save().then((item) => {
-      res.send("Item added sucessfully");
+      res.send("Registered sucessfully");
     })
     .catch((err) => {
       res.send("error in adding data");
     });
+}
+catch(err){
+    res.send(err,"error in adding data")
+}
 }
 
 module.exports = RegisterUser;

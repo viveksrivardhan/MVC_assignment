@@ -30,6 +30,21 @@ app.use("/signup", signupRouter);
 const LoginRouter = require("./routes/loginroute");
 app.use("/login", LoginRouter);
 
+const getproductroute = require("./routes/getproductroute");
+app.use("/getproducts",getproductroute);
+
+const getproductsbyidrouter = require("./routes/getproductbyidroute");
+app.use("/products", getproductsbyidrouter);
+
+const getproductsbycategoryroute = require ("./routes/getproductsbycategoryroute");
+app.use("/products",getproductsbycategoryroute);
+
+const getproductsbynameroute = require ("./routes/getproductsbynameroute");
+app.use("/products",getproductsbynameroute);
+
+const productaddroute = require("./routes/productaddroute");
+app.use("/products",productaddroute);
+
   app.listen("3000", () => {
     console.log("Server is running");
   });

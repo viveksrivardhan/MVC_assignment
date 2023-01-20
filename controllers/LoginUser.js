@@ -1,23 +1,20 @@
 const {UserModel} = require("../models/UserSchema");
+const {comparePasswords} = require("../utils/encrypt");
 
 function LoginUser(req, res) {
-  let username = req.body.username;
-  let email = req.body.email;
-  let password = req.body.password;
-  let userdata = {
-    username: username,
-    email: email,
-    password: password,
-  };
-  console.log(userdata)
-  let resultData = new UserModel(userdata);
-  console.log(resultData)
-  resultData.save().then((item) => {
-      res.send("Item added sucessfully");
-    })
-    .catch((err) => {
-      res.send("error in adding data");
-    });
+  const bcrypt = require('bcrypt');
+  UserModel.findOne({ email: req.body.email }, function (err, data) {
+    if (data) {
+        const passwordMatched = comparePasswords(req.body.password, data.password)
+        if (passwordMatched) {
+            res.send("Login Successful" + data.username);
+        } else {
+            res.send("Invalid password")
+        }
+    } else {
+        res.send("Invalid creds");
+    }
+});
 }
 
-module.exports = RegisterUser;
+module.exports = LoginUser;
